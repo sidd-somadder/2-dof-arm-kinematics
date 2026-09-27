@@ -71,6 +71,10 @@ ax_arm.set_ylim(-1.2 * reach, 1.2 * reach)
 ax_arm.set_aspect("equal")
 ax_arm.grid(True, ls=":", alpha=0.6)
 ax_arm.set_title("Arm Motion")
+ax_arm.text(0.02, 0.05, "Velocity/Acceleration arrows capped at 0.3 * reach",
+            transform=ax_arm.transAxes, fontsize=8, color="gray")
+ax_arm.text(0.02, 0.02, "* see magnitude plots (right) for accurate info.",
+            transform=ax_arm.transAxes, fontsize=8, color="gray")
 
 # initialize wrist velocity & acceleration vectors on plot at wrist location 
 arm_line, = ax_arm.plot([],[], "o-", lw=3, color="k")
@@ -97,17 +101,17 @@ def update(_frame):
     # updates arm motion velocity/acceleration vector direction in new time step
     v = r["v_wrist"][k]
     n = np.linalg.norm(v)
-    if n <= 0.3 * reach:
+    if n <= 0.5 * reach:
         vel_arrow.set_UVC(*v)
     else:
-        vel_arrow.set_UVC(*(v / n * 0.3 * reach))
+        vel_arrow.set_UVC(*(v / n * 0.5 * reach))
 
     a = r["a_wrist"][k]
     m = np.linalg.norm(a)
-    if m <= 0.3 * reach:
+    if m <= 0.5 * reach:
         accel_arrow.set_UVC(*a)
     else:
-        accel_arrow.set_UVC(*(a / m * 0.3 * reach))    
+        accel_arrow.set_UVC(*(a / m * 0.5 * reach))    
 
     vel_arrow.set_offsets([wx,wy])
     accel_arrow.set_offsets([wx,wy])
