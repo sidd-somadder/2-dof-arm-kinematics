@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 
@@ -19,8 +19,9 @@ def kin_2dof_solver(L1, L2, w1, w2, wdot1, wdot2, t_stop=10.0, dt=0.02):
     Outputs:
     * The following arrays, where N is the number of time steps:
         * t: time array, size N
-        * theta1, theta2: absolute joint angles from the global x-axis in radians, size N
-        (initial conditions fixed at theta1 = 30 deg, theta2 = 60 deg)
+        * thetaS, thetaE: absolute upper arm and forearm angles from the global
+        +x axis in radians, size N. Initial conditions fixed at thetaS0 = 30 deg,
+        thetaE0 = 120 deg (forearm 60 deg from the -x axis).
         * p_elbow, p_wrist: elbow and wrist positions in the global frame, size N x 2
         * v_wrist: wrist velocity in global x and y components, size N x 2
         * a_wrist: wrist acceleration in global x and y components, size N x 2
@@ -43,7 +44,7 @@ def kin_2dof_solver(L1, L2, w1, w2, wdot1, wdot2, t_stop=10.0, dt=0.02):
     wdot_Wt = wdot1 + wdot2; # constant value
 
     thetaS = thetaS0 + w1 * t + 0.5 * wdot1 * t**2
-    thetaE = thetaE0 + (w_Wt) * t + 0.5 * (wdot_Wt) * t**2    
+    thetaE = thetaE0 + (w1+w2) * t + 0.5 * (wdot_Wt) * t**2    
 
     # define unit vectors for rotating shoulder and elbow frames
     # see derivations.pdf for setup using shoulder/elbow coordinate frames, this transforms back to global i,j 
@@ -52,7 +53,22 @@ def kin_2dof_solver(L1, L2, w1, w2, wdot1, wdot2, t_stop=10.0, dt=0.02):
     j_s = np.column_stack((-np.sin(thetaS), np.cos(thetaS)))
     j_e = np.column_stack((-np.sin(thetaE), np.cos(thetaE)))
 
-    return {"t": t, "thetaS": thetaS, "thetaE": thetaE}
+    # define relative position vectors
+    R_EtS = L1 * i_s
+    R_WtE = L2 * i_e
+
+    # position vectors of the wrist and elbow
+    p_wrist = R_EtS + R_WtE;
+    p_elbow = R_EtS;
+
+    # wrist velocity and acceleration; see derivations.pdf for expression
+    vel_wrist = L1 * w1_t[:, None] * j_s + L2 * w_Wt[:, None] * j_e
+    accel_wrist = (L1 * wdot1 * j_s - L1 * (w1_t[:,None])**2 * i_s 
+                   + L2 * wdot_Wt * j_e - L2 * (w_Wt[:,None])**2 * i_e) 
+
+    return {"t": t, "thetaS": thetaS, "thetaE": thetaE,
+        "p_elbow": p_elbow, "p_wrist": p_wrist,
+        "v_wrist": vel_wrist, "a_wrist": accel_wrist}
 
 
 
