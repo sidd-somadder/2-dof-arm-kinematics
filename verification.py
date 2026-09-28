@@ -5,8 +5,8 @@ def rigid_rotation_test():
     print(r"Rigid Rotation test: w2 = wdot1 = wdot2 = 0; tolerance = 1e-10")
     tolerance = 1e-10;
     # arbitrary L1, L2, w1 values
-    L1 = 0.30
-    L2 = 0.35
+    L1 = 0.35
+    L2 = 0.30
     w1 = 1.5
     results = kin_2dof_solver(L1,L2,w1,0.0,0.0,0.0,t_stop=5.0)
 
@@ -40,8 +40,8 @@ def fixed_shoulder_angle_test():
     print(r"Fixed Shoulder Angle test: w1 = wdot1 = 0; tolerance = 1e-10")
     tolerance = 1e-10;
     # arbitrary L1, L2, w1 values
-    L1 = 0.30
-    L2 = 0.35
+    L1 = 0.35
+    L2 = 0.30
     w2 = 1.5
     wdot2 = 0.3
     results = kin_2dof_solver(L1,L2,0.0,w2,0.0,wdot2,t_stop=5.0)
