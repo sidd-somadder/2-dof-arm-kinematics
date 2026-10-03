@@ -34,7 +34,7 @@ I built this as a weekend project to apply what I'd learned in my undergraduate 
 - Initial pose: upper arm $\theta_1$ = 30° from +x, forearm $\theta_2$ 60° from −x (120° absolute)
 - Counterclockwise positive; kinematics only, no forces  
 
-Full derivation: [`docs/2DOF_Kinematics_Derivations.pdf`](docs/2DOF_Kinematics_Derivations.pdf)
+Full derivation: [`docs/2DOF_Kinematics_Technical_Report.pdf`](docs/2DOF_Kinematics_Technical_Report.pdf)
  
 ---
  
@@ -49,7 +49,7 @@ $\vec{V}_{W/o}=L_1\omega_1\hat{\jmath}_s + L_2(\omega_1 + \omega_2)\hat{\jmath}_
 $\vec{a}_{W/o} = L_1\dot\omega_1\hat{\jmath}_s -L_1\omega_1^2\ \hat{\imath}_s + L_2(\dot\omega_1+\dot\omega_2)\hat{\jmath}_e -L_2(\omega_1+\omega_2)^2\ \hat{\imath}_e$
 
  
-See [`docs/2DOF_Kinematics_Derivations.pdf`](docs/2DOF_Kinematics_Derivations.pdf) for more information regarding reference frames (namely unit vector transforms to global frame), notation, and system's time-dependence. 
+See [`docs/2DOF_Kinematics_Technical_Report.pdf`](docs/2DOF_Kinematics_Technical_Report.pdf) for more information regarding reference frames (namely unit vector transforms to global frame), notation, and system's time-dependence. 
  
 ---
  
@@ -60,7 +60,7 @@ The solver and governing mathematics were tested via three tests found in `verif
 * Fixed shoulder angle test where the only angular velocity/acceleration occurs at the elbow.  
 * Finite difference test where numpy numerical differentiation compared to the analytic solutions used by the solver to test derivative relations between wrist position, velocity, and acceleration.  
 
-The following table summarizes some key error results; more comprehensive explanation in section (vii) of [`docs/2DOF_Kinematics_Derivations.pdf`](docs/2DOF_Kinematics_Derivations.pdf) 
+The following table summarizes some key error results; more comprehensive explanation in section (vii) of [`docs/2DOF_Kinematics_Technical_Report.pdf`](docs/2DOF_Kinematics_Technical_Report.pdf) 
 
  
 | Test | Result |
